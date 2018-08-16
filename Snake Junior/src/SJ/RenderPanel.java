@@ -1,0 +1,58 @@
+package SJ;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+
+import javax.swing.JPanel;
+
+public class RenderPanel extends JPanel
+{
+
+	public static final Color GREEN = new Color(1666073);
+
+	@Override
+	protected void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		
+		Zmija zmija = Zmija.zmija;
+
+		g.setColor(GREEN);
+		
+		g.fillRect(0, 0, 800, 700);
+
+		g.setColor(Color.BLUE);
+
+		for (Point point : zmija.dijeloviZmije)
+		{
+			g.fillRect(point.x * Zmija.SCALE, point.y * Zmija.SCALE, Zmija.SCALE, Zmija.SCALE);
+		}
+		
+		g.fillRect(zmija.glava.x * Zmija.SCALE, zmija.glava.y * Zmija.SCALE, Zmija.SCALE, Zmija.SCALE);
+		
+		g.setColor(Color.RED);
+		
+		g.fillRect(zmija.hrana.x * Zmija.SCALE, zmija.hrana.y * Zmija.SCALE, Zmija.SCALE, Zmija.SCALE);
+		
+		String string = "Rezultat: " + zmija.rezultat + ", Dužina: " + zmija.duzinaRepa + ", Vrijeme: " + zmija.vrijeme / 20;
+		
+		g.setColor(Color.white);
+		
+		g.drawString(string, (int) (getWidth() / 2 - string.length() * 2.5f), 10);
+
+		string = "Game Over! Pres space to play again!";
+
+		if (zmija.over)
+		{
+			g.drawString(string, (int) (getWidth() / 2 - string.length() * 2.5f), (int) zmija.dim.getHeight() / 4);
+		}
+
+		string = "Paused!";
+
+		if (zmija.paused && !zmija.over)
+		{
+			g.drawString(string, (int) (getWidth() / 2 - string.length() * 2.5f), (int) zmija.dim.getHeight() / 4);
+		}
+	}
+}

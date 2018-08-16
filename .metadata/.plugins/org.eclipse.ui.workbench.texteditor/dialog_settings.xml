@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="hrana" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="hrana"/>
+			<item value="dijeloviZmije"/>
+			<item value="Zmija()"/>
+			<item value="duzinaRepa"/>
+			<item value="taillength"/>
+			<item value="score"/>
+			<item value="direction"/>
+			<item value="time"/>
+			<item value="ticks"/>
+			<item value="head"/>
+			<item value="cherry"/>
+			<item value="game"/>
+			<item value="snake"/>
+		</list>
+		<list key="replacehistory">
+			<item value="duzinaRepa"/>
+			<item value="rezultat"/>
+			<item value="smjer"/>
+			<item value="vrijeme"/>
+			<item value="glava"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="284" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="391" key="DIALOG_HEIGHT"/>
+		<item value="1183" key="DIALOG_X_ORIGIN"/>
+		<item value="261" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

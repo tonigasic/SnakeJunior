@@ -1,0 +1,215 @@
+package SJ;
+
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.swing.JFrame;
+import javax.swing.Timer;
+
+public class Zmija implements ActionListener, KeyListener
+{
+
+	public static Zmija zmija;
+
+	public JFrame jframe;
+
+	public RenderPanel renderPanel;
+
+	public Timer timer = new Timer(20, this);
+
+	public ArrayList<Point> dijeloviZmije = new ArrayList<Point>();
+
+	public static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3, SCALE = 10;
+
+	public int ticks = 0, smjer = DOWN, rezultat, duzinaRepa = 5, vrijeme;
+
+	public Point glava, hrana;
+
+	public Random random;
+
+	public boolean over = false, paused;
+
+	public Dimension dim;
+
+	public Zmija()
+	{
+		dim = Toolkit.getDefaultToolkit().getScreenSize();
+		jframe = new JFrame("Zmija");
+		jframe.setVisible(true);
+		jframe.setSize(805, 700);
+		jframe.setResizable(false);
+		jframe.setLocation(dim.width / 2 - jframe.getWidth() / 2, dim.height / 2 - jframe.getHeight() / 2);
+		jframe.add(renderPanel = new RenderPanel());
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jframe.addKeyListener(this);
+		startGame();
+	}
+
+	public void startGame()
+	{
+		over = false;
+		paused = false;
+		vrijeme = 0;
+		rezultat = 0;
+		duzinaRepa = 5;
+		ticks = 0;
+		smjer = DOWN;
+		glava = new Point(0, -1);
+		random = new Random();
+		dijeloviZmije.clear();
+		hrana = new Point(random.nextInt(79), random.nextInt(66));
+		timer.start();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0)
+	{
+		renderPanel.repaint();
+		ticks++;
+
+		if (ticks % 2 == 0 && glava != null && !over && !paused)
+		{
+			vrijeme++;
+
+			dijeloviZmije.add(new Point(glava.x, glava.y));
+
+			if (smjer == UP)
+			{
+				if (glava.y - 1 >= 0 && noTailAt(glava.x, glava.y - 1))
+				{
+					glava = new Point(glava.x, glava.y - 1);
+				}
+				else
+				{
+					over = true;
+
+				}
+			}
+
+			if (smjer == DOWN)
+			{
+				if (glava.y + 1 < 67 && noTailAt(glava.x, glava.y + 1))
+				{
+					glava = new Point(glava.x, glava.y + 1);
+				}
+				else
+				{
+					over = true;
+				}
+			}
+
+			if (smjer == LEFT)
+			{
+				if (glava.x - 1 >= 0 && noTailAt(glava.x - 1, glava.y))
+				{
+					glava = new Point(glava.x - 1, glava.y);
+				}
+				else
+				{
+					over = true;
+				}
+			}
+
+			if (smjer == RIGHT)
+			{
+				if (glava.x + 1 < 80 && noTailAt(glava.x + 1, glava.y))
+				{
+					glava = new Point(glava.x + 1, glava.y);
+				}
+				else
+				{
+					over = true;
+				}
+			}
+
+			if (dijeloviZmije.size() > duzinaRepa)
+			{
+				dijeloviZmije.remove(0);
+
+			}
+
+			if (hrana != null)
+			{
+				if (glava.equals(hrana))
+				{
+					rezultat += 10;
+					duzinaRepa++;
+					hrana.setLocation(random.nextInt(79), random.nextInt(66));
+				}
+			}
+		}
+	}
+
+	public boolean noTailAt(int x, int y)
+	{
+		for (Point point : dijeloviZmije)
+		{
+			if (point.equals(new Point(x, y)))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static void main(String[] args)
+	{
+		zmija = new Zmija();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+		int i = e.getKeyCode();
+
+		if ((i == KeyEvent.VK_A || i == KeyEvent.VK_LEFT) && smjer != RIGHT)
+		{
+			smjer = LEFT;
+		}
+
+		if ((i == KeyEvent.VK_D || i == KeyEvent.VK_RIGHT) && smjer != LEFT)
+		{
+			smjer = RIGHT;
+		}
+
+		if ((i == KeyEvent.VK_W || i == KeyEvent.VK_UP) && smjer != DOWN)
+		{
+			smjer = UP;
+		}
+
+		if ((i == KeyEvent.VK_S || i == KeyEvent.VK_DOWN) && smjer != UP)
+		{
+			smjer = DOWN;
+		}
+
+		if (i == KeyEvent.VK_SPACE)
+		{
+			if (over)
+			{
+				startGame();
+			}
+			else
+			{
+				paused = !paused;
+			}
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e)
+	{
+	}
+
+}
